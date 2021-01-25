@@ -40,7 +40,8 @@ public class Main {
 
                 // If the operator isn't one character in length
                 if(line[i].length() != 1){
-                    throw new BadStringOperationException("Operator is not valid"); // Tell the user their query is wrong
+                    System.out.println("Operator is not valid"); // Tell the user their query is wrong
+                    break;
                 }
 
                 try{
@@ -48,9 +49,12 @@ public class Main {
                     stack.push(evaluate((double)stack.pop(), (double)stack.pop(), line[i].charAt(0)));
                 }catch (NullPointerException e){
                     // If popping the stack results in emptying the array
-                    throw new BadStringOperationException("Expression has too many operators or is otherwise malformed");
+                    System.out.println("Expression has too many operators or is otherwise malformed");
+                    break;
+                }catch (BadStringOperationException e){
+                    System.out.println("Operator is not valid");
+                    break;
                 }
-
             }
 
             // Get the result from the query
@@ -58,7 +62,8 @@ public class Main {
 
             // If there is still more values in the stack, something is wrong with the query
             if(!stack.empty()){
-                throw new BadStringOperationException("Expression is missing operators or is otherwise malformed");
+                System.out.println("Expression is missing operators or is otherwise malformed");
+                continue;
             }
 
             // Print result
